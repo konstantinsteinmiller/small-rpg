@@ -1,12 +1,12 @@
 <template lang="pug">
-  div(class=" inset-0 flex items-center justify-center" :class="{ ' z-[9999]': progress < 100}")
+  div(class="inset-0 flex items-center justify-center" :class="{ ' z-[9999]': progress < 100}")
     div(class="relative flex flex-col items-center")
 
       //- Logo Progress Container
-      div(class="relative w-full h-full sm:w-32 sm:h-32")
+      div(class="relative w-32 h-32 aspect-square sm:w-32 sm:h-32")
         //- Background (Grayscale)
         img(
-          src="/images/logo/logo_512x512.webp" alt="logo loader"
+          src="/images/logo/logo_256x256.webp" alt="logo loader"
           class="absolute inset-0 w-full h-full object-contain grayscale opacity-30"
         )
 
@@ -16,8 +16,8 @@
           :style="maskStyle"
         )
           img(
-            src="/images/logo/logo_512x512.webp" alt="logo loader"
-            class="w-full h-full object-contain"
+            src="/images/logo/logo_256x256.webp" alt="logo loader"
+            class="w-full h-full object-cover"
           )
 
       //- Loading Text

@@ -23,7 +23,8 @@ WIP: [playable demo](https://konstantinsteinmiller.github.io/small-rpg/)
     - [x] mute music and sound
     -
 - [ ] basic gameplay
-    - [ ]
+    - [ ] attackers should switch target to next neighbour if target is dead already.
+    - [ ] draw line with circle at the end to show attack range
 
 - [ ] Npc logic
     - [ ]
@@ -72,6 +73,9 @@ WIP: [playable demo](https://konstantinsteinmiller.github.io/small-rpg/)
 - [ ] Opt: 2nd card Theme: gibli
 
 - [ ] Steam page
+- [ ] Create https://www.gamespress.com/de article after Steam Page of App store
+- [ ] Marketing
+  material https://zemoremarketingguide.notion.site/Ultimate-Marketing-Guide-for-Indie-Developers-29dcc5fe19c98178a688f3842088c922
 
 ## Refactorings
 
