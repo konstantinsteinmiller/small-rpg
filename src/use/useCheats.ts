@@ -44,7 +44,7 @@ const useCheats = () => {
         completed: demoCampaignNodes.some(demo => demo.id === node.id) && node.id !== 'node-e2-b' && node.id !== 'node-w2'
       }])
     }, [])
-    saveCampaign({ id: 'node-w-all', knownCards: [] })
+    saveCampaign({ id: 'node-w-all' })
 
     console.warn('[CHEAT] All DEMO campaign nodes completed.')
   }

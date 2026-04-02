@@ -22,8 +22,6 @@ const emit = defineEmits<{
 const router = useRouter()
 const { t } = useI18n()
 
-const areKnownCardsSaved = ref<boolean>(false)
-
 const result = computed((): 'win' | 'lose' | 'draw' => {
   if (props.scores.player > props.scores.npc) return 'win'
   if (props.scores.npc > props.scores.player) return 'lose'
@@ -34,23 +32,10 @@ watch(() => props.isBoardFull, () => {
   if (!activeNode?.value || !props.isBoardFull) return
 
   if (result.value === 'win') {
-    //set known cards for active node from the dealt npc deck
-    activeNode.value.knownCards = [...new Set([
-      ...(JSON.parse(JSON.stringify(activeNode.value.knownCards)) ?? []),
-      ...originalNpcHand.value.map(c => c.id)
-    ])]
     props.completeNode(JSON.parse(JSON.stringify(activeNode.value)))
   }
 
-  if (areKnownCardsSaved.value) return
-  //set known cards for active node from the dealt npc deck
-  activeNode.value.knownCards = [...new Set([
-    ...(JSON.parse(JSON.stringify(activeNode.value.knownCards)) ?? []),
-    ...originalNpcHand.value.map(c => c.id)
-  ])]
   props.saveCampaign(JSON.parse(JSON.stringify(activeNode.value)))
-
-  areKnownCardsSaved.value = true
 })
 
 const onContinue = () => {
@@ -68,7 +53,6 @@ const onBackToMenu = () => {
 }
 
 onMounted(() => {
-  areKnownCardsSaved.value = false
 })
 </script>
 

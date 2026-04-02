@@ -7,13 +7,11 @@ export interface CampaignNode {
   id: string
   name: string
   description: string
-  npcDeck: string[]
+  npcTeam: string[]
   position: { x: number; y: number }
   unlocked: boolean
   completed: boolean
   unlocks: string[]
-  knownCards: string[]
-  rules: RuleName[]
 }
 
 export interface MobileNode {
@@ -24,19 +22,7 @@ export interface MobileNode {
 
 
 export const demoCampaignNodes: Array<{ id: string }> = [
-  // --- TRACK 1: WESTERN COAST ---
   { id: 'node-w1' },
-  { id: 'node-w1-b' },
-  { id: 'node-w-chal' },
-  { id: 'node-w-all' },
-  // --- TRACK 2: EASTERN DESERT ---
-  { id: 'node-e1' },
-  { id: 'node-e1-b' },
-  { id: 'node-e-chal' },
-  { id: 'node-e2' },
-
-  { id: 'node-w2' },
-  { id: 'node-e2-b' }
 ]
 
 export const selectedNodeId = ref<string | null>(null)
@@ -58,172 +44,133 @@ export const useCampaign = () => {
       id: 'node-w1',
       name: t('node-w1.name'),
       description: t('node-w1.desc'),
-      // Node 1: 100% Young Nature/Water/Neutral
-      npcDeck: ['mermaid-young', 'moss-young', 'mushroom-young', 'piranha-young', 'sirene-young', 'turtoise-young', 'cosmica-young', 'butterfly-young', 'dragon-young', 'snowman-young'],
+      npcTeam: [],
       position: { x: 16, y: 81 },
       unlocked: true,
       completed: false,
-      unlocks: ['node-w1-b', 'node-w-chal'],
-      knownCards: [],
-      rules: ['high', 'one']
+      unlocks: ['node-w1-b', 'node-w-chal']
     },
     {
       id: 'node-w1-b',
       name: t('node-w1-b.name'),
       description: t('node-w1-b.desc'),
-      // Node 2: 100% Young Metal/Earth/Neutral
-      npcDeck: ['scorpion-young', 'piranha-young', 'warrior-young', 'dragon-young', 'gruffalo-young', 'gargoyle-young', 'cosmic-young', 'tardigrade-young', 'eel-young'],
+      npcTeam: [],
       position: { x: 38, y: 68 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-w2', 'node-w-all'],
-      knownCards: [],
-      rules: ['high', 'one']
+      unlocks: ['node-w2', 'node-w-all']
     },
     {
       id: 'node-w-chal',
       name: t('node-w-chal.name'),
       description: t('node-w-chal.desc'),
-      // Side Challenge (Branch of Node 1): Intro to Middle Air cards (20% Middle)
-      npcDeck: ['postman-middle', 'butterfly-middle', 'sirene-young', 'scorpion-young', 'warrior-young', 'gruffalo-young', 'gargoyle-young', 'mouse-young', 'cosmic-young', 'eel-young'],
+      npcTeam: [],
       position: { x: 42, y: 82 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-w2'],
-      knownCards: [],
-      rules: ['high', 'plus', 'same', 'one']
+      unlocks: ['node-w2']
     },
     {
       id: 'node-w-all',
       name: t('node-w-all.name'),
       description: t('node-w-all.desc'),
-      // Side Challenge (Branch of challenge Node 1): Intro to all rule cards (young only)
-      npcDeck: ['postman-middle', 'butterfly-middle', 'sirene-young', 'shark-young', 'mermaid-young', 'scorpion-young', 'turtoise-young', 'mushroom-young', 'warrior-young', 'gruffalo-young', 'gargoyle-young', 'mouse-young', 'cosmic-young', 'eel-young'],
+      npcTeam: [],
       position: { x: 22, y: 65 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: [],
-      knownCards: [],
-      rules: ['high', 'plus', 'same', 'combo', 'all']
+      unlocks: []
     },
     {
       id: 'node-w2',
       name: t('node-w2.name'),
       description: t('node-w2.desc'),
-      // Node 3: 10% Middle cards (Teaser)
-      npcDeck: ['mermaid-young', 'shark-young', 'shark-middle', 'piranha-young', 'turtoise-young', 'mushroom-young', 'imp-middle', 'puppet-young', 'porcupine-middle', 'mouse-young'],
+      npcTeam: [],
       position: { x: 60, y: 65 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-w2-b'],
-      knownCards: [],
-      rules: ['high', 'same', 'all']
+      unlocks: ['node-w2-b']
     },
     {
       id: 'node-w2-b',
       name: t('node-w2-b.name'),
       description: t('node-w2-b.desc'),
-      // Node 4: 1/3rd Middle Tier (As requested)
-      npcDeck: ['mermaid-middle', 'shark-middle', 'piranha-middle', 'turtoise-young', 'eel-young', 'mammoth-young', 'snowflower-middle', 'pegasus-middle', 'warrior-young', 'hag-middle'],
+      npcTeam: [],
       position: { x: 45, y: 60 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-w3', 'node-c0'],
-      knownCards: [],
-      rules: ['high', 'open', 'conquered']
+      unlocks: ['node-w3', 'node-c0']
     },
     {
       id: 'node-w3',
       name: t('node-w3.name'),
       description: t('node-w3.desc'),
-      // Mid-way West: Mostly Middle, first glimpse of Old (10% Old)
-      npcDeck: ['mermaid-old', 'shark-middle', 'piranha-middle', 'starlight-old', 'warrior-middle', 'turtoise-middle', 'eel-middle', 'griffin-middle', 'bear-middle', 'cat-middle'],
+      npcTeam: [],
       position: { x: 28, y: 45 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-s1'],
-      knownCards: [],
-      rules: ['high', 'plus', 'combo', 'open', 'random']
+      unlocks: ['node-s1']
     },
 
-    // --- TRACK 2: EASTERN DESERT (Fire & Metal) ---
+    // --- TRACK 2: EASTERN DESERT ---
     {
       id: 'node-e1',
       name: t('node-e1.name'),
       description: t('node-e1.desc'),
-      // Node 1: 100% Young Fire/Metal
-      npcDeck: ['dragon-young', 'scorpion-young', 'warrior-young', 'household-young', 'mouse-young', 'gruffalo-young', 'snowman-young', 'piranha-young', 'puppet-young', 'cosmica-young'],
+      npcTeam: [],
       position: { x: 75, y: 84 },
       unlocked: true,
       completed: false,
-      unlocks: ['node-e1-b', 'node-e2'],
-      knownCards: [],
-      rules: ['high', 'one']
+      unlocks: ['node-e1-b', 'node-e2']
     },
     {
       id: 'node-e1-b',
       name: t('node-e1-b.name'),
       description: t('node-e1-b.desc'),
-      // Node 2: 100% Young Neutral/Metal
-      npcDeck: ['warrior-young', 'household-young', 'shark-young', 'scorpion-young', 'dragon-young', 'gruffalo-young', 'puppet-young', 'cosmic-young', 'female-young', 'eel-young'],
+      npcTeam: [],
       position: { x: 92, y: 80 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-e2', 'node-e-chal'],
-      knownCards: [],
-      rules: ['high', 'one']
+      unlocks: ['node-e2', 'node-e-chal']
     },
     {
       id: 'node-e-chal',
       name: t('node-e-chal.name'),
       description: t('node-e-chal.desc'),
-      // Side Challenge East: 30% Middle cards
-      npcDeck: ['nightmare-middle', 'bear-middle', 'fox-middle', 'scorpion-young', 'porcupine-middle', 'demon-young', 'cat-middle', 'yeti-young', 'mammoth-young', 'wulfberry-middle'],
+      npcTeam: [],
       position: { x: 95, y: 65 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-e2'],
-      knownCards: [],
-      rules: ['high', 'open', 'same', 'all']
+      unlocks: ['node-e2']
     },
     {
       id: 'node-e2',
       name: t('node-e2.name'),
       description: t('node-e2.desc'),
-      // Node 3: 10% Middle cards
-      npcDeck: ['dragon-middle', 'porcupine-middle', 'dragon-young', 'armadillo-middle', 'tardigrade-young', 'mouse-young', 'gargoyle-young', 'household-young', 'warrior-young'],
+      npcTeam: [],
       position: { x: 85, y: 72 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-e2-b'],
-      knownCards: [],
-      rules: ['high', 'plus', 'one']
+      unlocks: ['node-e2-b']
     },
     {
       id: 'node-e2-b',
       name: t('node-e2-b.name'),
       description: t('node-e2-b.desc'),
-      // Node 4: 1/3rd Middle Tier
-      npcDeck: ['demon-young', 'dragon-middle', 'gargoyle-middle', 'mushroom-young', 'butterfly-young', 'gargoyle-young', 'fox-middle', 'bear-middle', 'wulfberry-middle', 'tardigrade-young'],
+      npcTeam: [],
       position: { x: 80, y: 60 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-e3', 'node-c0', 'node-ne1'],
-      knownCards: [],
-      rules: ['high', 'plus', 'one']
+      unlocks: ['node-e3', 'node-c0', 'node-ne1']
     },
     {
       id: 'node-e3',
       name: t('node-e3.name'),
       description: t('node-e3.desc'),
-      // Transition to late game: 60% Middle, 30% Old
-      npcDeck: ['dragon-old', 'fox-old', 'scorpion-old', 'armadillo-old', 'gargoyle-old', 'mouse-middle', 'warrior-middle', 'deer-middle', 'asha-old', 'starlight-old'],
+      npcTeam: [],
       position: { x: 72, y: 48 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-c0', 'node-a1'],
-      knownCards: [],
-      rules: ['high', 'same', 'conquered']
+      unlocks: ['node-c0', 'node-a1']
     },
 
     // --- TRACK 3: CENTRAL CONVERGENCE (The Mixing Point) ---
@@ -231,53 +178,41 @@ export const useCampaign = () => {
       id: 'node-c0',
       name: t('node-c0.name'),
       description: t('node-c0.desc'),
-      // Convergence Start: 80% Middle, 20% Young
-      npcDeck: ['moss-young', 'mushroom-middle', 'butterfly-middle', 'cosmic-middle', 'gargoyle-middle', 'bear-middle', 'griffin-middle', 'warrior-middle', 'shark-middle', 'piranha-middle', 'sirene-young', 'porcupine-middle', 'demon-middle'],
+      npcTeam: [],
       position: { x: 55, y: 55 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-c1'],
-      knownCards: [],
-      rules: ['high', 'same', 'one']
+      unlocks: ['node-c1']
     },
     {
       id: 'node-c1',
       name: t('node-c1.name'),
       description: t('node-c1.desc'),
-      // 50/50 Middle and Old mix
-      npcDeck: ['tardigrade-middle', 'nightmare-middle', 'mushroom-middle', 'wulfberry-middle', 'gargoyle-old', 'armadillo-old', 'cosmic-old', 'gorilla-middle', 'griffin-middle', 'asha-old', 'cosmic-middle', 'hag-middle'],
+      npcTeam: [],
       position: { x: 45, y: 48 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-c1-b'],
-      knownCards: [],
-      rules: ['high', 'plus', 'one']
+      unlocks: ['node-c1-b']
     },
     {
       id: 'node-c1-b',
       name: t('node-c1-b.name'),
       description: t('node-c1-b.desc'),
-      // Higher tier Air mix: 70% Middle, 30% Old
-      npcDeck: ['griffin-middle', 'gorilla-old', 'harpy-middle', 'dragon-old', 'gargoyle-old', 'tardigrade-middle', 'nightmare-middle', 'postman-middle', 'female-middle', 'pegasus-middle', 'eel-middle'],
+      npcTeam: [],
       position: { x: 40, y: 38 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-c2'],
-      knownCards: [],
-      rules: ['high', 'plus', 'combo', 'one']
+      unlocks: ['node-c2']
     },
     {
       id: 'node-c2',
       name: t('node-c2.name'),
       description: t('node-c2.desc'),
-      // High-tier Convergence: 90% Old Tier
-      npcDeck: ['tardigrade-old', 'starlight-old', 'mouse-old', 'cosmic-old', 'gorilla-old', 'angel-old', 'female-old', 'snowman-old', 'dragon-old', 'mermaid-old', 'eclipse-old', 'imp-old'],
+      npcTeam: [],
       position: { x: 45, y: 32 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-f1'],
-      knownCards: [],
-      rules: ['high', 'same', 'plus', 'combo', 'random']
+      unlocks: ['node-f1']
     },
 
     // --- TRACK 4: FINAL SUMMIT (The Peak) ---
@@ -285,27 +220,21 @@ export const useCampaign = () => {
       id: 'node-f1',
       name: t('node-f1.name'),
       description: t('node-f1.desc'),
-      // The Elite Gatekeeper: 100% Old
-      npcDeck: ['armadillo-old', 'dragon-old', 'scorpion-old', 'gargoyle-old', 'fox-old', 'asha-old', 'female-old', 'snowman-old', 'imp-old', 'tardigrade-old'],
+      npcTeam: [],
       position: { x: 52, y: 22 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-final'],
-      knownCards: [],
-      rules: ['high', 'plus', 'same', 'one']
+      unlocks: ['node-final']
     },
     {
       id: 'node-final',
       name: t('node-final.name'),
       description: t('node-final.desc'),
-      // The Final Boss: Peak cards only
-      npcDeck: ['eclipse-old', 'asha-old', 'cosmic-old', 'starlight-old', 'dragon-old', 'mermaid-old', 'scorpion-old', 'angel-old', 'snowman-old', 'imp-old', 'tardigrade-old', 'fox-old'],
+      npcTeam: [],
       position: { x: 50, y: 15 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: [],
-      knownCards: [],
-      rules: ['high', 'plus', 'same', 'combo', 'all']
+      unlocks: []
     },
 
     // --- TRACK 5: ABYSSAL SIDE-TRACK (LOW RULE) ---
@@ -313,94 +242,74 @@ export const useCampaign = () => {
       id: 'node-s1',
       name: t('node-s1.name'),
       description: t('node-s1.desc'),
-      // Start of Abyss: 100% Young with '1' values
-      npcDeck: ['mouse-young', 'snowman-young', 'piranha-young', 'mammoth-young', 'eel-young', 'female-young', 'butterfly-young', 'moss-young', 'demon-young', 'scorpion-young'],
+      npcTeam: [],
       position: { x: 10, y: 30 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-s1-b', 'node-s1-c'],
-      knownCards: [],
-      rules: ['low', 'one']
+      unlocks: ['node-s1-b', 'node-s1-c']
     },
     {
       id: 'node-s1-b',
       name: t('node-s1-b.name'),
       description: t('node-s1-b.desc'),
-      // Abyss Step 2: 90% Young
-      npcDeck: ['butterfly-young', 'mouse-young', 'demon-young', 'snowman-young', 'eel-young', 'dragon-young', 'scorpion-young', 'moss-young', 'mermaid-young', 'household-young', 'cat-middle'],
+      npcTeam: [],
       position: { x: 8, y: 20 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-s2'],
-      knownCards: [],
-      rules: ['low', 'plus', 'random']
+      unlocks: ['node-s2']
     },
     {
       id: 'node-s1-c',
       name: t('node-s1-c.name'),
       description: t('node-s1-c.desc'),
-      // Abyss Step 2 Alt: Symmetrical weak cards
-      npcDeck: ['butterfly-young', 'demon-young', 'snowman-young', 'eel-young', 'cosmic-young', 'tardigrade-young', 'mouse-young', 'piranha-young', 'sirene-young', 'turtoise-young'],
+      npcTeam: [],
       position: { x: 19, y: 22 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-s2'],
-      knownCards: [],
-      rules: ['low', 'same', 'conquered']
+      unlocks: ['node-s2']
     },
     {
       id: 'node-s2',
       name: t('node-s2.name'),
       description: t('node-s2.desc'),
-      // Abyss Peak: Strong cards that are weak in values (Old tier strategically used)
-      npcDeck: ['mouse-young', 'demon-young', 'cosmica-young', 'mushroom-young', 'butterfly-young', 'fox-old', 'puppet-young', 'tardigrade-young', 'cosmic-young', 'cat-middle'],
+      npcTeam: [],
       position: { x: 6, y: 7 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: [],
-      knownCards: [],
-      rules: ['low', 'open', 'plus', 'same', 'combo', 'all']
+      unlocks: []
     },
 
-    // --- TRACK 6: ARCHIPELAGO (Aquatic Late-game) ---
     {
       id: 'node-a1',
       name: t('node-a1.name'),
       description: t('node-a1.desc'),
       // Branching from Mid-game: 50/50 split
-      npcDeck: ['turtoise-middle', 'piranha-middle', 'mermaid-middle', 'sirene-young', 'eel-middle', 'snowman-young', 'yeti-young', 'mammoth-middle', 'cosmic-young', 'tardigrade-young'],
+      npcTeam: [],
       position: { x: 80, y: 40 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-a2', 'node-ne1'],
-      knownCards: [],
-      rules: ['low', 'conquered']
+      unlocks: ['node-a2', 'node-ne1']
     },
     {
       id: 'node-a2',
       name: t('node-a2.name'),
       description: t('node-a2.desc'),
       // Late-game Reef: 80% Middle, 20% Old
-      npcDeck: ['shark-middle', 'mermaid-old', 'piranha-old', 'yeti-middle', 'eel-middle', 'mammoth-middle', 'snowflower-middle', 'turtoise-old', 'piranha-middle', 'snowman-middle', 'shark-young'],
+      npcTeam: [],
       position: { x: 68, y: 35 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-a3'],
-      knownCards: [],
-      rules: ['high', 'plus', 'conquered']
+      unlocks: ['node-a3']
     },
     {
       id: 'node-a3',
       name: t('node-a3.name'),
       description: t('node-a3.desc'),
-      // Deep Ocean: 100% Old
-      npcDeck: ['mermaid-old', 'piranha-old', 'turtoise-old', 'starlight-old', 'snowman-old', 'angel-old', 'gorilla-old', 'female-old', 'asha-old', 'eclipse-old', 'scorpion-old'],
+      npcTeam: [],
       position: { x: 80, y: 23 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: [],
-      knownCards: [],
-      rules: ['high', 'plus', 'same', 'combo', 'all']
+      unlocks: []
     },
 
     // --- TRACK 7: NORTH EASTERN ISLAND (Endgame Psi/Metal) ---
@@ -408,40 +317,31 @@ export const useCampaign = () => {
       id: 'node-ne1',
       name: t('node-ne1.name'),
       description: t('node-ne1.desc'),
-      // Heavy Earth/Metal: 70% Old
-      npcDeck: ['bear-middle', 'imp-middle', 'mushroom-middle', 'harbringer-middle', 'harpy-middle', 'deer-middle', 'gargoyle-middle', 'armadillo-middle', 'scorpion-middle', 'gargoyle-old', 'mouse-middle', 'fox-old'],
+      npcTeam: [],
       position: { x: 92, y: 35 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-ne2'],
-      knownCards: [],
-      rules: ['high', 'same', 'one']
+      unlocks: ['node-ne2']
     },
     {
       id: 'node-ne2',
       name: t('node-ne2.name'),
       description: t('node-ne2.desc'),
-      // Psi focus: 90% Old
-      npcDeck: ['mouse-old', 'snowman-middle', 'yeti-middle', 'gorilla-middle', 'gorilla-old', 'wulfberry-middle', 'scorpion-middle', 'harpy-middle', 'cosmic-old', 'female-middle', 'demon-middle', 'hag-middle', 'harbringer-middle', 'tardigrade-old'],
+      npcTeam: [],
       position: { x: 95, y: 15 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: ['node-ne3'],
-      knownCards: [],
-      rules: ['high', 'plus', 'open', 'one']
+      unlocks: ['node-ne3']
     },
     {
       id: 'node-ne3',
       name: t('node-ne3.name'),
       description: t('node-ne3.desc'),
-      // Celestial Peak: 100% Old
-      npcDeck: ['gorilla-old', 'angel-old', 'starlight-old', 'cosmic-old', 'female-old', 'dragon-old', 'asha-old', 'eclipse-old', 'scorpion-old', 'tardigrade-old'],
+      npcTeam: [],
       position: { x: 91, y: 6 },
       unlocked: isCampaignTest.value ? true : false,
       completed: false,
-      unlocks: [],
-      knownCards: [],
-      rules: ['high', 'plus', 'same', 'combo', 'all']
+      unlocks: []
     }
   ]
 
@@ -620,7 +520,6 @@ export const useCampaign = () => {
         const node = campaignNodes.value.find(n => n.id === saved.id)
         if (node) {
           node.completed = saved.completed
-          node.knownCards = saved.knownCards || []
           // If a node is completed, unlock its children
           if (node.completed) {
             if (isDemo && !demoRelevantNodes.some(demo => demo.id === node.id)) return
@@ -648,7 +547,6 @@ export const useCampaign = () => {
     demoRelevantNodes.pop()
 
     oldNode.completed = true
-    oldNode.knownCards = currentNode.knownCards
     oldNode.unlocks.forEach(nextId => {
       if (isDemo && !demoRelevantNodes.some(demo => demo.id === nextId)) return
 
@@ -658,8 +556,7 @@ export const useCampaign = () => {
 
     const storedNodes = campaignNodes.value.map(n => ({
       id: n.id,
-      completed: n.completed,
-      knownCards: n.id === currentNode.id ? currentNode?.knownCards : n.knownCards
+      completed: n.completed
     }))
     setSettingValue('campaign', storedNodes)
   }
@@ -672,8 +569,7 @@ export const useCampaign = () => {
 
     const storedNodes = campaignNodes.value.map(n => ({
       id: n.id,
-      completed: n.completed,
-      knownCards: n.id === oldNode.id ? currentNode?.knownCards : n.knownCards
+      completed: n.completed
     }))
     setSettingValue('campaign', storedNodes)
   }

@@ -27,3 +27,45 @@ export interface GameState {
   turn: 'player' | 'npc';
   winner: 'player' | 'npc' | 'draw' | null;
 }
+
+// --- Battle RPG types ---
+export type CharacterShape = 'square' | 'circle' | 'triangle'
+export type CharacterType = 'melee' | 'ranged' | 'mage'
+export type BattleActionType = 'attack' | 'defend'
+export type BattlePhase = 'planning' | 'executing' | 'npc-turn' | 'finished'
+export type BattleWinner = 'player' | 'npc' | null
+
+export interface BattleHero {
+  id: string
+  name: string
+  shape: CharacterShape
+  type: CharacterType
+  hp: number
+  maxHp: number
+  attack: number
+  defense: number
+  isDefending: boolean
+  isAlive: boolean
+  isAnimating: boolean
+  isHit: boolean
+  color: string
+}
+
+export interface BattleEnemy {
+  id: string
+  name: string
+  hp: number
+  maxHp: number
+  attack: number
+  defense: number
+  isAlive: boolean
+  isAnimating: boolean
+  isHit: boolean
+  color: string
+}
+
+export interface BattleAction {
+  heroId: string
+  type: BattleActionType
+  targetId?: string
+}

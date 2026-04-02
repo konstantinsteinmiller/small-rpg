@@ -80,7 +80,7 @@ const toggleMute = () => {
 
 const onCampaign = () => {
   if (loadingProgress.value < 100) return
-  router.push({ name: 'match' })
+  router.push({ name: 'battle' })
 }
 
 const handleExit = () => {
