@@ -27,8 +27,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import FReward from '@/components/atoms/FReward'
-import useSound from '@/use/useSound'
+import FReward from '@/components/atoms/FReward.vue'
+import useSound from '@/use/useSound.ts'
 
 const props = defineProps<{
   modelValue: boolean

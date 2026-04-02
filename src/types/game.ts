@@ -54,6 +54,8 @@ export interface BattleHero {
 export interface BattleEnemy {
   id: string
   name: string
+  shape: CharacterShape
+  type: CharacterType
   hp: number
   maxHp: number
   attack: number

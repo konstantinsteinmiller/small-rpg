@@ -65,6 +65,8 @@ const DEFAULT_ENEMIES: BattleEnemy[] = [
   {
     id: 'enemy-1',
     name: 'Goblin',
+    shape: 'circle',
+    type: 'melee',
     hp: 60,
     maxHp: 60,
     attack: 15,
@@ -77,6 +79,8 @@ const DEFAULT_ENEMIES: BattleEnemy[] = [
   {
     id: 'enemy-2',
     name: 'Orc',
+    shape: 'square',
+    type: 'melee',
     hp: 90,
     maxHp: 90,
     attack: 22,
@@ -89,6 +93,8 @@ const DEFAULT_ENEMIES: BattleEnemy[] = [
   {
     id: 'enemy-3',
     name: 'Troll',
+    shape: 'square',
+    type: 'melee',
     hp: 120,
     maxHp: 120,
     attack: 18,

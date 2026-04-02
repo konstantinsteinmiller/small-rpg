@@ -23,27 +23,8 @@
         span(v-else-if="battlePhase === 'executing'") Executing actions…
         span(v-else-if="battlePhase === 'npc-turn'") Enemy turn…
 
-    //- ── Enemy area ───────────────────────────────────────────────────────
-    div.absolute.left-0.right-0.flex.justify-center.items-end.gap-4.flex-wrap.px-6(
-      class="top-[8%]"
-    )
-      div.flex.flex-col.items-center.gap-1(
-        v-for="enemy in enemies"
-        :key="enemy.id"
-      )
-        span.text-gray-300.text-xs.text-shadow {{ enemy.hp }}/{{ enemy.maxHp }}
-        div.w-16.h-2.bg-gray-800.rounded-full.overflow-hidden
-          div.h-full.rounded-full.transition-all.duration-500(
-            :style="{ width: `${(enemy.hp / enemy.maxHp) * 100}%`, backgroundColor: '#e53e3e' }"
-          )
-        div.w-14.h-14.flex.items-center.justify-center.rounded-lg.transition-all.duration-200(
-          :ref="(el) => setEnemyRef(enemy.id, el)"
-          :data-enemy-id="enemy.id"
-          :class="getEnemyClasses(enemy)"
-          :style="getEnemyStyle(enemy)"
-        )
-          span.text-white.text-sm.font-bold.pointer-events-none {{ enemy.name[0] }}
-        span.text-gray-300.text-xs {{ enemy.name }}
+    //- ── Enemy team ───────────────────────────────────────────────────────
+    EnemyTeam(:set-enemy-ref="setEnemyRef" :enemy-attack-targets="enemyAttackTargets")
 
     //- ── SVG overlay — drag line + assigned-action lines ──────────────────
     svg.absolute.inset-0.w-full.h-full.pointer-events-none(style="z-index: 40")
@@ -67,57 +48,13 @@
           marker-end="url(#attack-arrow)"
         )
 
-    //- ── Hero area ────────────────────────────────────────────────────────
-    div.absolute.left-0.right-0.flex.justify-center.items-start.gap-6.px-4(
-      class="bottom-[14%]"
+    //- ── Player team ──────────────────────────────────────────────────────
+    PlayerTeam(
+      :drag-hero-id="dragHeroId"
+      :hero-attack-targets="heroAttackTargets"
+      :set-hero-ref="setHeroRef"
+      @hero-pointerdown="startDrag"
     )
-      div.flex.flex-col.items-center.gap-1(
-        v-for="hero in heroes"
-        :key="hero.id"
-      )
-        //- Action label
-        div.text-xs.font-bold.h-5.flex.items-center.justify-center(class="min-w-[3.5rem]")
-          span.text-red-400(v-if="heroActions[hero.id]?.type === 'attack'") ⚔ ATTACK
-          span.text-blue-300(v-else-if="heroActions[hero.id]?.type === 'defend'") 🛡 DEFEND
-          span.text-gray-500(v-else-if="!hero.isAlive") ✝ KO
-          span.text-gray-500(v-else) – – –
-
-        //- Stacking container — hero shape sits on top, defend circle peeks from below
-        div.relative.flex.justify-center(style="width: 56px; height: 72px")
-          //- Defend circle (rendered first = behind hero in z order)
-          div.absolute.bottom-0.w-12.h-12.rounded-full.flex.items-center.justify-center.border-2.transition-all.duration-300(
-            :data-defend-for="hero.id"
-            v-show="dragHeroId === hero.id && hero.isAlive"
-            :class="heroActions[hero.id]?.type === 'defend' ? 'border-blue-300 bg-blue-500/70' : 'border-blue-400 border-dashed bg-blue-900/50'"
-            @click="handleDefendClick(hero)"
-          )
-            span.text-sm.pointer-events-none 🛡
-
-          //- Hero shape (rendered after defend = on top)
-          div.absolute.top-0.w-14.h-14.flex.items-center.justify-center(
-            :ref="(el) => setHeroRef(hero.id, el)"
-            :data-hero-id="hero.id"
-            :class="getHeroClasses(hero)"
-            :style="getHeroStyle(hero)"
-            @pointerdown.prevent="startDrag(hero.id, $event)"
-          )
-            //- For triangle the clip-path hides the bg, so draw a separate fill layer
-            div.absolute.inset-0.pointer-events-none(
-              v-if="hero.shape === 'triangle'"
-              :style="{ clipPath: 'polygon(50% 5%, 5% 95%, 95% 95%)', backgroundColor: hero.isAlive ? hero.color : '#4a4a4a' }"
-            )
-            span.relative.text-white.text-base.font-bold.pointer-events-none(
-              style="text-shadow: 1px 1px 2px rgba(0,0,0,0.8); z-index: 1"
-              :class="hero.shape === 'triangle' ? 'mt-5' : ''"
-            ) {{ hero.name[0] }}
-
-        //- HP bar
-        div.w-14.h-2.bg-gray-800.rounded-full.overflow-hidden.mt-1
-          div.h-full.rounded-full.transition-all.duration-500(
-            :style="{ width: `${(hero.hp / hero.maxHp) * 100}%`, backgroundColor: getHpColor(hero.hp, hero.maxHp) }"
-          )
-        span.text-gray-200.text-xs.text-shadow {{ hero.hp }}/{{ hero.maxHp }}
-        span.text-gray-400.text-xs {{ hero.name }}
 
     //- ── Execute button ───────────────────────────────────────────────────
     div.absolute.bottom-3.left-0.right-0.flex.justify-center.items-center.gap-3(style="z-index: 10")
@@ -152,12 +89,13 @@ import { useMatch } from '@/use/useMatch'
 //   handleTapSelect,
 //   handleSlotTap
 // } = useInteraction(playerHand, placeCard)
-import GameOverModal from '@/components/organisms/GameOverModal'
+import GameOverModal from '@/components/organisms/GameOverModal.vue'
+import EnemyTeam from '@/components/organisms/EnemyTeam.vue'
+import PlayerTeam from '@/components/organisms/PlayerTeam.vue'
 import useUser from '@/use/useUser'
 import useCampaign from '@/use/useCampaign'
 import { useScreenshake } from '@/use/useScreenshake'
 import { useBattle, sleep } from '@/use/useBattle'
-import type { BattleHero, BattleEnemy } from '@/types/game'
 
 const { turn, resetGame } = useMatch()
 const { userSkipRulesModal } = useUser()
@@ -240,8 +178,9 @@ const setEnemyRef = (id: string, el: unknown) => {
   enemyRefs[id] = el as HTMLElement | null
 }
 
-// CSS custom-property offsets used by the melee-attacking keyframe
+// CSS custom-property offsets used by the melee-attacking keyframe in PlayerTeam / EnemyTeam
 const heroAttackTargets = reactive<Record<string, { dx: number; dy: number }>>({})
+const enemyAttackTargets = reactive<Record<string, { dx: number; dy: number }>>({})
 
 // ── Drag state ─────────────────────────────────────────────────────────────
 const isDragging = ref(false)
@@ -298,24 +237,15 @@ const cancelDrag = () => {
   dragStartPos.value = null
 }
 
-// Clicking the defend zone directly (alternative to drag)
-const handleDefendClick = (hero: BattleHero) => {
-  if (!hero.isAlive || battlePhase.value !== 'planning') return
-  if (heroActions.value[hero.id]?.type === 'defend') {
-    clearAction(hero.id)
-  } else {
-    assignAction({ heroId: hero.id, type: 'defend' })
-  }
-}
-
 // ── Assigned-action lines (SVG) ────────────────────────────────────────────
 const actionLines = computed(() => {
   return aliveHeroes.value
     .filter(h => heroActions.value[h.id]?.type === 'attack' && heroActions.value[h.id]?.targetId)
     .map(h => {
       const action = heroActions.value[h.id]
+      if (!action?.targetId) return null
       const heroEl = heroRefs[h.id]
-      const enemyEl = enemyRefs[action.targetId!]
+      const enemyEl = enemyRefs[action.targetId]
       if (!heroEl || !enemyEl) return null
       const hr = heroEl.getBoundingClientRect()
       const er = enemyEl.getBoundingClientRect()
@@ -339,61 +269,7 @@ const scores = computed(() => ({
 }))
 const isBoardFull = computed(() => winner.value !== null)
 
-// ── Visual helpers ─────────────────────────────────────────────────────────
-const getHpColor = (hp: number, maxHp: number): string => {
-  const pct = hp / maxHp
-  if (pct > 0.6) return '#48bb78'
-  if (pct > 0.3) return '#ecc94b'
-  return '#fc8181'
-}
-
-const getHeroClasses = (hero: BattleHero): string => {
-  const shapeClass =
-    hero.shape === 'circle' ? 'rounded-full' : hero.shape === 'square' ? 'rounded-md' : ''
-  return [
-    'transition-all duration-300',
-    shapeClass,
-    // Triangle background is rendered by the inner div so keep outer transparent
-    hero.shape === 'triangle' ? 'bg-transparent' : '',
-    !hero.isAlive ? 'opacity-40 grayscale cursor-not-allowed' : 'cursor-grab',
-    hero.isDefending ? 'ring-4 ring-blue-400 ring-offset-1 ring-offset-transparent' : '',
-    hero.isHit ? 'character-hit' : '',
-    hero.isAnimating && hero.type === 'melee' ? 'melee-attacking' : '',
-    hero.isAnimating && hero.type !== 'melee' ? 'ranged-casting' : ''
-  ]
-    .filter(Boolean)
-    .join(' ')
-}
-
-const getHeroStyle = (hero: BattleHero): Record<string, string> => {
-  const style: Record<string, string> = {
-    backgroundColor:
-      hero.shape === 'triangle' ? 'transparent' : hero.isAlive ? hero.color : '#4a4a4a'
-  }
-  const t = heroAttackTargets[hero.id]
-  if (t) {
-    style['--attack-dx'] = `${t.dx}px`
-    style['--attack-dy'] = `${t.dy}px`
-  }
-  return style
-}
-
-const getEnemyClasses = (enemy: BattleEnemy): string =>
-  [
-    !enemy.isAlive ? 'opacity-30 grayscale' : 'cursor-crosshair',
-    enemy.isHit ? 'character-hit' : '',
-    enemy.isAnimating ? 'enemy-attacking' : ''
-  ]
-    .filter(Boolean)
-    .join(' ')
-
-const getEnemyStyle = (enemy: BattleEnemy): Record<string, string> => ({
-  backgroundColor: enemy.isAlive ? enemy.color : '#555'
-})
-
-// Kept for potential reuse — visibility is now handled by v-show in the template
-const getDefendZoneClasses = (_hero: BattleHero): string => ''
-
+// ── Phase banner class ─────────────────────────────────────────────────────
 const phaseBannerClass = computed(() => {
   if (battlePhase.value === 'planning') return 'bg-yellow-500/80 text-black'
   if (battlePhase.value === 'executing') return 'bg-green-600/80 text-white'
@@ -428,6 +304,25 @@ const animateRangedAttack = async (heroId: string) => {
   hero.isAnimating = true
   await sleep(700)
   hero.isAnimating = false
+}
+
+const animateEnemyMeleeAttack = async (enemyId: string, targetHeroId: string) => {
+  const enemy = enemies.value.find(e => e.id === enemyId)
+  if (!enemy) return
+  const enemyEl = enemyRefs[enemyId]
+  const heroEl = heroRefs[targetHeroId]
+  if (enemyEl && heroEl) {
+    const er = enemyEl.getBoundingClientRect()
+    const hr = heroEl.getBoundingClientRect()
+    enemyAttackTargets[enemyId] = {
+      dx: hr.left + hr.width / 2 - (er.left + er.width / 2),
+      dy: hr.top + hr.height / 2 - (er.top + er.height / 2)
+    }
+  }
+  enemy.isAnimating = true
+  await sleep(700)
+  enemy.isAnimating = false
+  delete enemyAttackTargets[enemyId]
 }
 
 // ── Turn execution ─────────────────────────────────────────────────────────
@@ -482,9 +377,8 @@ const executeTurn = async () => {
     if (!targets.length) break
 
     const target = targets[Math.floor(Math.random() * targets.length)]
-    enemy.isAnimating = true
-    await sleep(500)
-    enemy.isAnimating = false
+    if (!target) continue
+    await animateEnemyMeleeAttack(enemy.id, target.id)
 
     const dmg = applyDamage(enemy.attack, target.defense, target.isDefending)
     damageHero(target.id, dmg)
@@ -507,55 +401,3 @@ const executeTurn = async () => {
   nextRound()
 }
 </script>
-
-<style lang="sass" scoped>
-// ── Melee hero jump attack ─────────────────────────────────────────────────
-.melee-attacking
-  animation: melee-jump 0.7s ease-in-out forwards
-
-@keyframes melee-jump
-  0%
-    transform: translate(0, 0) scale(1)
-  40%
-    transform: translate(var(--attack-dx, 0px), var(--attack-dy, 0px)) scale(1.15)
-  60%
-    transform: translate(var(--attack-dx, 0px), var(--attack-dy, 0px)) scale(1.15)
-  100%
-    transform: translate(0, 0) scale(1)
-
-// ── Ranged / mage cast animation ──────────────────────────────────────────
-.ranged-casting
-  animation: ranged-cast 0.7s ease-in-out
-
-@keyframes ranged-cast
-  0%
-    transform: scale(1) rotate(0deg)
-  30%
-    transform: scale(1.3) rotate(-8deg)
-  60%
-    transform: scale(0.9) rotate(6deg)
-  100%
-    transform: scale(1) rotate(0deg)
-
-// ── Enemy attack shake ─────────────────────────────────────────────────────
-.enemy-attacking
-  animation: enemy-shake 0.5s ease-in-out
-
-@keyframes enemy-shake
-  0%, 100%
-    transform: translateX(0) scale(1)
-  25%
-    transform: translateX(-8px) scale(1.12)
-  75%
-    transform: translateX(8px) scale(1.12)
-
-// ── Hit flash ─────────────────────────────────────────────────────────────
-.character-hit
-  animation: hit-flash 0.4s ease-in-out
-
-@keyframes hit-flash
-  0%, 100%
-    filter: brightness(1)
-  50%
-    filter: brightness(4) saturate(0.3)
-</style>
