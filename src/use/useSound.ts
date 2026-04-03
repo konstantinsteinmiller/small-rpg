@@ -36,7 +36,8 @@ export const useMusic = () => {
   watch(() => route, () => {
     if (bgMusic.value && bgMusic.value?.dataset?.name !== undefined && route.name === 'battle') {
       bgMusic.value?.pause()
-      const filename = 'battle.ogg'
+      const randomInt = Math.min(Math.floor(Math.random() * 3) + 1, 3)
+      const filename = `battle-${randomInt}.ogg`
       bgMusic.value.dataset.name = filename
       bgMusic.value.src = prependBaseUrl('audio/music/' + filename)
       bgMusic.value.addEventListener('canplaythrough', () => {
@@ -45,7 +46,7 @@ export const useMusic = () => {
       }, { once: true })
     } else if (bgMusic.value && bgMusic.value?.dataset?.name === 'battle.ogg' && route.name !== 'battle') {
       bgMusic.value?.pause()
-      const filename = 'adventure_main-menu.mp3'
+      const filename = 'main-theme-2.ogg'
       bgMusic.value.dataset.name = filename
       bgMusic.value.src = prependBaseUrl('audio/music/' + filename)
       bgMusic.value.addEventListener('canplaythrough', () => {

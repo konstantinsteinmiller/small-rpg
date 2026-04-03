@@ -17,7 +17,7 @@ const STATIC_IMAGES = [
   'images/bg/campaign-map_800x710.webp',
   'images/bg/campaign-map_800x1600.webp',
   'images/bg/campaign-map_1600x800.webp',
-  'images/bg/oak_600x588.webp',
+  // 'images/bg/oak_600x588.webp',
   'images/icons/difficulty-icon_128x128.webp',
   'images/icons/settings-icon_128x128.webp',
   'images/icons/sound-icon_128x128.webp'
@@ -27,19 +27,19 @@ const BG_IMAGE = [
   '/images/board/papyrus-tile_128x128.webp',
   'images/board/papyrus-tile_128x128.webp',
   './images/board/papyrus-tile_128x128.webp',
-  '/images/bg/bg_1024x1024.webp',
-  'images/bg/bg_1024x1024.webp',
-  './images/bg/bg_1024x1024.webp'
+  '/images/bg/bg_1024x1024_.webp',
+  'images/bg/bg_1024x1024_.webp',
+  './images/bg/bg_1024x1024_.webp'
 ]
 
 const SOUND_ASSETS = [
-  'audio/sfx/plus.ogg',
-  'audio/sfx/same.ogg',
-  'audio/sfx/combo.ogg',
+  // 'audio/sfx/plus.ogg',
+  // 'audio/sfx/same.ogg',
+  // 'audio/sfx/combo.ogg',
   'audio/sfx/turn-card.ogg',
   'audio/sfx/hover-card.ogg',
   'audio/sfx/place-card.ogg',
-  'audio/sfx/draw.ogg',
+  // 'audio/sfx/draw.ogg',
   'audio/sfx/win.ogg',
   'audio/sfx/lose.ogg',
   'audio/sfx/card-pack-open.ogg',
@@ -47,8 +47,11 @@ const SOUND_ASSETS = [
 ]
 
 const MUSIC_ASSETS = [
-  'audio/music/battle.ogg',
-  'audio/music/adventure_main-menu.mp3'
+  // 'audio/music/battle.ogg',
+  'audio/music/battle-1.ogg',
+  'audio/music/battle-2.ogg',
+  'audio/music/battle-3.ogg',
+  'audio/music/main-theme-2.ogg'
 ]
 
 export default () => {

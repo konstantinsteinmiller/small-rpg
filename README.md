@@ -16,24 +16,53 @@ WIP: [playable demo](https://konstantinsteinmiller.github.io/small-rpg/)
 
 - [x] Main Menu
     - [x] start game button
-    - [ ] create Logo
+  - [x] create Logo
     - [x] settings button
-    - [ ] background image
+  - [x] background image
     - [x] version
     - [x] mute music and sound
-    -
+  - [x] exit button for native games like windows
+
 - [ ] basic gameplay
     - [ ] attackers should switch target to next neighbour if target is dead already.
     - [ ] draw line with circle at the end to show attack range
+  - [ ] change health bar with dividers showing damage dealt with a darkred tone for 0.5 sec
 
 - [ ] Npc logic
     - [ ]
 
-- [ ] GameOverModal
-    - [ ] show winner / loser / draw
-    - [ ] restart game button
-    - [ ] continue Campaign
+- [ ] World exploration map instead of campaign map?
+    - [ ]
 
+- [ ] Crafting System
+    - [ ] Crafting Menu (potions, weapons, armor)
+    - [ ] decompose for stardust
+    - [ ] battles drop crafting materials
+
+- [ ] Bag System
+    - [ ] player can use item from bag during battle
+
+- [ ] Equipment System
+    - [ ] equip hat, armor, weapon and/or shield or bow/book/staff
+    - [ ] upgrade of items in equipment menu (rewarded video to skip time and/or resources)
+
+- [ ] Battle Reward System
+    - [ ] 3 Star system per campaign node
+    - [ ] flag with 1-3 stars
+    - [ ] stars influence the reward amount
+    - [ ] Roulette wheel after battle for material and rare item rewards (rewarded video for double materials or coins)
+
+- [ ] Spell System
+    - [ ] Spells Menu
+    - [ ] mana recovers on physical attacks (item-based value)
+    - [ ] player can use one equipped spell during battle
+    - [ ] limit break mechanic for ultimate (taking damage and dealing damage raises limit break)
+    - [ ] spells need usage xp (rewarded video to skip xp resources)
+    - [ ] player can upgrade spells in spells menu (rewarded video to skip time and/or resources)
+
+- [ ] GameOverModal
+    - [ ] show winner / loser
+    - [ ] continue Campaign
 
 - [ ] Campaign
     - [ ] 
@@ -47,6 +76,8 @@ WIP: [playable demo](https://konstantinsteinmiller.github.io/small-rpg/)
     - [ ] reset progress button
 
 - [ ] Sound and bg music
+    - [x] bg music
+    - [x] battle music
 
 - [ ] (native) dark mode adjustment
 
@@ -54,7 +85,6 @@ WIP: [playable demo](https://konstantinsteinmiller.github.io/small-rpg/)
     - [ ] create Demo version
         - [ ] create Demo build
     - [ ] build for windows
-        - [ ] exit button for native games
     - [ ] build for android
     - [ ] build for ios
     - [ ] Poki.io launch
